@@ -1,0 +1,5 @@
+melodie1;artist1;2000;7200
+melodie2;artist1;2010;450
+melodie3;artist2;2003;20000
+melodie4;artist1;2005;785
+melodie5;artist3;2002;9512
