@@ -1,0 +1,2 @@
+Produsul cu cel mai mare pret este: cafea 8.3 35
+Produsul cu cel mai mic pret este: paine 1.5 38
