@@ -1,0 +1,4 @@
+zahar;2.55;20
+cafea;8.3;35
+paine;1.5;38
+fasole;7.6;87
