@@ -1,5 +1,9 @@
 package Problema1;
 
-public class Client {
+import java.util.Set;
 
+public class Client {
+	private String nume;
+	private String adresa;
+	private Set<ContBancar> conturi;
 }

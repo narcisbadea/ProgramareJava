@@ -1,5 +1,8 @@
 package Problema1;
 
-public class Banca {
+import java.util.List;
 
+public class Banca {
+	private String denumire_banca;
+	private List<Client> clienti;
 }
