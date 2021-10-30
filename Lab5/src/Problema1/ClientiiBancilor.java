@@ -58,7 +58,6 @@ public class ClientiiBancilor {
 	}
 	public void adaugareClient() throws IOException
 	{
-		Client c;
 
 		String nume, adresa;
 		int aux;
@@ -69,11 +68,12 @@ public class ClientiiBancilor {
 		System.out.print("Adresa clientului: ");
 		adresa = input.nextLine();
 		int i=0;
-		c=new Client(nume, adresa);
+		Client c=new Client(nume, adresa);
 		for(Banca b:banci) {
 			System.out.println(i+". "+b.getDenumire_banca());
 		}
-		System.out.print("Banca ale1asa: ");
+		c.addCont(new ContBancar("RO21", "EURO"));
+		System.out.print("Banca aleasa: ");
 		banci.elementAt(input.nextInt()).addClient(c);
 	}
 }
