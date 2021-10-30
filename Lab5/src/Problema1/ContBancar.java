@@ -50,8 +50,7 @@ public class ContBancar implements Operatiuni {
 		this.data_ultimei_operatiuni = data_ultimei_operatiuni;
 	}
 
-	public ContBancar(String numarCont, String moneda) {
-		this.numarCont = numarCont;
+	public ContBancar(String moneda) {
 		this.suma = 0;
 		this.moneda = moneda;
 		this.data_deschiderii = Calendar.getInstance();
@@ -88,7 +87,10 @@ public class ContBancar implements Operatiuni {
 	@Override
 	public String toString() {
 		return "ContBancar [numarCont=" + numarCont + ", suma=" + suma + ", moneda=" + moneda + ", data_deschiderii="
-				+ data_deschiderii + ", data_ultimei_operatiuni=" + data_ultimei_operatiuni + "]";
+				+ data_deschiderii.get(Calendar.DAY_OF_MONTH) + "." + data_deschiderii.get(Calendar.MONTH) + "."
+				+ data_deschiderii.get(Calendar.YEAR) + ", data_ultimei_operatiuni="
+				+ data_ultimei_operatiuni.get(Calendar.DAY_OF_MONTH) + "." + data_ultimei_operatiuni.get(Calendar.MONTH)
+				+ "." + data_ultimei_operatiuni.get(Calendar.YEAR) + "]";
 	}
 
 }

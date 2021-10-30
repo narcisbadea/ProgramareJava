@@ -1,10 +1,19 @@
 package Problema1;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Banca {
 	private String denumire_banca;
-	private List<Client> clienti;
+	public List<Client> clienti = new ArrayList <Client>();;
+	
+	
+	
+	
+	public Client getClient(int index) {
+		return clienti.get(index);
+	}
+	
 	
 	public String getDenumire_banca() {
 		return denumire_banca;

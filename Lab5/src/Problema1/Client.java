@@ -1,11 +1,13 @@
 package Problema1;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Client {
 	private String nume;
 	private String adresa;
-	private Set<ContBancar> conturi;
+	public Set<ContBancar> conturi = new HashSet<ContBancar>();
+	private int nrCont=0;
 	public String getNume() {
 		return nume;
 	}
@@ -32,6 +34,7 @@ public class Client {
 		return "Client [nume=" + nume + ", adresa=" + adresa + ", conturi=" + conturi + "]";
 	}
 	public void addCont(ContBancar cb) {
+		cb.setNumarCont(Integer.toString(nrCont++));
 		this.conturi.add(cb);
 	}
 }
