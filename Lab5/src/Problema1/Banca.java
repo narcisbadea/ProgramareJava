@@ -26,5 +26,9 @@ public class Banca {
 	public void addClient(Client c) {
 		this.clienti.add(c);
 	}
+	@Override
+	public String toString() {
+		return "Banca [denumire_banca=" + denumire_banca + ", clienti=" + clienti + "]";
+	}
 	
 }

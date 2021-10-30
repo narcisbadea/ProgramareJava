@@ -71,4 +71,10 @@ public class ContBancar implements Operatiuni{
 	public void extragere(float suma) {
 		this.suma = actualizare_suma() - suma;
 	}
+	@Override
+	public String toString() {
+		return "ContBancar [numarCont=" + numarCont + ", suma=" + suma + ", moneda=" + moneda + ", data_deschiderii="
+				+ data_deschiderii + ", data_ultimei_operatiuni=" + data_ultimei_operatiuni + "]";
+	}
+	
 }

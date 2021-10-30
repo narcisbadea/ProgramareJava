@@ -27,6 +27,10 @@ public class Client {
 		this.adresa = adresa;
 	}
 	
+	@Override
+	public String toString() {
+		return "Client [nume=" + nume + ", adresa=" + adresa + ", conturi=" + conturi + "]";
+	}
 	public void addCont(ContBancar cb) {
 		this.conturi.add(cb);
 	}
