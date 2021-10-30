@@ -6,4 +6,28 @@ public class Client {
 	private String nume;
 	private String adresa;
 	private Set<ContBancar> conturi;
+	public String getNume() {
+		return nume;
+	}
+	public void setNume(String nume) {
+		this.nume = nume;
+	}
+	public String getAdresa() {
+		return adresa;
+	}
+	public void setAdresa(String adresa) {
+		this.adresa = adresa;
+	}
+	public Set<ContBancar> getConturi() {
+		return conturi;
+	}
+	public Client(String nume, String adresa) {
+		super();
+		this.nume = nume;
+		this.adresa = adresa;
+	}
+	
+	public void addCont(ContBancar cb) {
+		this.conturi.add(cb);
+	}
 }
