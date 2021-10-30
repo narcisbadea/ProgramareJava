@@ -5,16 +5,14 @@ import java.util.Scanner;
 import java.util.Vector;
 
 public class ClientiiBancilor {
-	private Vector<Banca> banci;
-	Scanner input;
+	private Vector<Banca> banci = new Vector<Banca>();
+	Scanner input = new Scanner(System.in);
 
-	ClientiiBancilor() {
-		input = new Scanner(System.in);
-		banci = new Vector<Banca>();
+	public ClientiiBancilor() {
 	}
 
 	public void menu() throws IOException {
-		int o;
+		int opt;
 
 		do {
 			System.out.println();
@@ -27,10 +25,10 @@ public class ClientiiBancilor {
 			System.out.println("7. Tranfer intre conturi");
 			System.out.println("0. Iesire");
 			System.out.print("Optiunea selectata: ");
-			o = input.nextInt();
+			opt = input.nextInt();
 			input.nextLine();
 
-			switch (o) {
+			switch (opt) {
 			case 1:
 				adaugareBanca();
 				break;
@@ -59,38 +57,39 @@ public class ClientiiBancilor {
 				break;
 			}
 
-		} while (o != 0);
+		} while (opt != 0);
 
 		input.close();
 	}
 
 	public void adaugareCont() throws IOException {
 		Client c = selecteazaClient(selecteazaBanca());
+		if (c != null) {
+			ContBancar cb;
+			String moneda = "";
+			
+			System.out.println("\t0. RON\t1. EURO");
+			System.out.print("Moneda contului: ");
+			int i = input.nextInt();
+			boolean optiuneValida = true;
+			do {
+				switch (i) {
+				case 0:
+					moneda = "RON";
+					break;
+				case 1:
+					moneda = "EURO";
+					break;
+				default:
+					System.out.println("Optiune invalida!");
+					optiuneValida = false;
+					break;
+				}
+			} while (!optiuneValida);
 
-		ContBancar cb;
-		String moneda = "";
-
-		System.out.println("Moneda contului: ");
-		System.out.println("\t0. RON\t1. EURO");
-		int i = input.nextInt();
-		boolean optiuneValida = true;
-		do {
-			switch (i) {
-			case 0:
-				moneda = "RON";
-				break;
-			case 1:
-				moneda = "EURO";
-				break;
-			default:
-				System.out.println("Optiune invalida!");
-				optiuneValida = false;
-				break;
-			}
-		} while (!optiuneValida);
-
-		cb = new ContBancar(moneda);
-		c.addCont(cb);
+			cb = new ContBancar(moneda);
+			c.addCont(cb);
+		}
 	}
 
 	public Banca selecteazaBanca() throws IOException {
@@ -106,11 +105,16 @@ public class ClientiiBancilor {
 
 	public Client selecteazaClient(Banca b) throws IOException {
 		Client c = null;
-		System.out.println("Clientii aflati in gestiunea bancii " + b.getDenumire_banca());
-		afisareClienti(b);
-		System.out.print("Selectati clientul: ");
-		c = b.getClient(input.nextInt());
+		if (b.clienti.size() != 0) {
 
+			System.out.println("Clientii aflati in gestiunea bancii " + b.getDenumire_banca());
+			afisareClienti(b);
+			System.out.print("Selectati clientul: ");
+			c = b.getClient(input.nextInt());
+		} else {
+			System.out.println("Banca nu are clienti in gestiune!");
+
+		}
 		return c;
 	}
 
@@ -147,10 +151,13 @@ public class ClientiiBancilor {
 	}
 
 	public void afisareClienti(Banca bnc) {
+
 		int i = 0;
 		for (Client a : bnc.clienti) {
 			System.out.println(i + ". " + a.getNume());
+			i++;
 		}
+
 	}
 
 	public void afisareDate() {
@@ -174,7 +181,7 @@ public class ClientiiBancilor {
 		ContBancar cb = null;
 		int i = 0;
 		for (ContBancar cntB : c.conturi) {
-			System.out.println("\t"+i + ". " + cntB.toString());
+			System.out.println("\t" + i + ". " + cntB.toString());
 			i++;
 		}
 		System.out.print("\tSelectati contul: ");
@@ -198,6 +205,7 @@ public class ClientiiBancilor {
 		float suma = input.nextFloat();
 		cntB.depunere(suma);
 	}
+
 	public void extragereCont() throws IOException {
 		Client c = selecteazaClient(selecteazaBanca());
 		ContBancar cntB = selecteazaCont(c);
@@ -205,14 +213,15 @@ public class ClientiiBancilor {
 		float suma = input.nextFloat();
 		cntB.extragere(suma);
 	}
-	public void transfer() throws IOException{
+
+	public void transfer() throws IOException {
 		System.out.println("Primul client(de la care se transfera): ");
 		Client c = selecteazaClient(selecteazaBanca());
 		ContBancar cntB = selecteazaCont(c);
-		
+
 		System.out.println("Al doilea client(la care se transfera): ");
 		Client c2 = selecteazaClient(selecteazaBanca());
-		ContBancar cntB2 = selecteazaCont(c);
+		ContBancar cntB2 = selecteazaCont(c2);
 		System.out.print("\tSuma pentru transfer: ");
 		float suma = input.nextFloat();
 		cntB.extragere(suma);

@@ -58,8 +58,8 @@ public class ContBancar implements Operatiuni {
 	}
 
 	public float calculeaza_dobanda() {
-		long today = Calendar.getInstance().getTimeInMillis();
-		int days = (int) TimeUnit.MILLISECONDS.toDays(Math.abs(today - data_ultimei_operatiuni.getTimeInMillis()));
+		long present = Calendar.getInstance().getTimeInMillis();
+		int days = (int) TimeUnit.MILLISECONDS.toDays(Math.abs(present - data_ultimei_operatiuni.getTimeInMillis()));
 
 		if (moneda == "EURO")
 			return (float) (0.1 * days);
