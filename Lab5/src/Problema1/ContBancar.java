@@ -10,6 +10,13 @@ public class ContBancar implements Operatiuni {
 	private Calendar data_deschiderii;
 	private Calendar data_ultimei_operatiuni;
 
+	public ContBancar(String moneda) {
+		this.suma = 0;
+		this.moneda = moneda;
+		this.data_deschiderii = Calendar.getInstance();
+		this.data_ultimei_operatiuni = data_deschiderii;
+	}
+
 	public String getNumarCont() {
 		return numarCont;
 	}
@@ -48,13 +55,6 @@ public class ContBancar implements Operatiuni {
 
 	public void setData_ultimei_operatiuni(Calendar data_ultimei_operatiuni) {
 		this.data_ultimei_operatiuni = data_ultimei_operatiuni;
-	}
-
-	public ContBancar(String moneda) {
-		this.suma = 0;
-		this.moneda = moneda;
-		this.data_deschiderii = Calendar.getInstance();
-		this.data_ultimei_operatiuni = data_deschiderii;
 	}
 
 	public float calculeaza_dobanda() {

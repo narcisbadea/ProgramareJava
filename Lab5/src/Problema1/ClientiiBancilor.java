@@ -11,12 +11,11 @@ public class ClientiiBancilor {
 	public ClientiiBancilor() {
 	}
 
-	public void menu() throws IOException {
-		int opt;
+	public void meniu() throws IOException {
+		int opt = -1;
 
-		do {
-			System.out.println();
-			System.out.println("1. Adaugare banca");
+		while (opt != 0) {
+			System.out.println("\n1. Adaugare banca");
 			System.out.println("2. Adaugare client");
 			System.out.println("3. Adaugare cont");
 			System.out.println("4. Afisarea tuturor clientilor");
@@ -26,7 +25,6 @@ public class ClientiiBancilor {
 			System.out.println("0. Iesire");
 			System.out.print("Optiunea selectata: ");
 			opt = input.nextInt();
-			input.nextLine();
 
 			switch (opt) {
 			case 1:
@@ -56,9 +54,7 @@ public class ClientiiBancilor {
 			case 0:
 				break;
 			}
-
-		} while (opt != 0);
-
+		}
 		input.close();
 	}
 
@@ -67,7 +63,6 @@ public class ClientiiBancilor {
 		if (c != null) {
 			ContBancar cb;
 			String moneda = "";
-			
 			System.out.println("\t0. RON\t1. EURO");
 			System.out.print("Moneda contului: ");
 			int i = input.nextInt();
@@ -86,36 +81,32 @@ public class ClientiiBancilor {
 					break;
 				}
 			} while (!optiuneValida);
-
 			cb = new ContBancar(moneda);
 			c.addCont(cb);
 		}
 	}
 
 	public Banca selecteazaBanca() throws IOException {
-
-		Banca b;
 		System.out.println("Bancile aflate in gestiune: ");
 		afisareBanci();
 		System.out.print("Selectati banca: ");
-		b = banci.get(input.nextInt());
-
-		return b;
+		return banci.get(input.nextInt());
 	}
 
 	public Client selecteazaClient(Banca b) throws IOException {
-		Client c = null;
 		if (b.clienti.size() != 0) {
 
 			System.out.println("Clientii aflati in gestiunea bancii " + b.getDenumire_banca());
 			afisareClienti(b);
 			System.out.print("Selectati clientul: ");
-			c = b.getClient(input.nextInt());
+			return b.getClient(input.nextInt());
+			
 		} else {
+			
 			System.out.println("Banca nu are clienti in gestiune!");
-
+			return null;
+			
 		}
-		return c;
 	}
 
 	public void adaugareBanca() throws IOException {
@@ -168,7 +159,7 @@ public class ClientiiBancilor {
 			for (Client c : b.clienti) {
 				System.out.print("\t" + i + ". Nume: " + c.getNume() + "\n\t   Adresa: " + c.getAdresa());
 				System.out.print("\n\t   Conturi bancare:\n");
-				for (ContBancar cntB : c.conturi) {
+				for (ContBancar cntB : c.getConturi()) {
 					System.out.println("\n\t   \t" + cntB.toString());
 				}
 				System.out.println();
@@ -180,14 +171,14 @@ public class ClientiiBancilor {
 	public ContBancar selecteazaCont(Client c) {
 		ContBancar cb = null;
 		int i = 0;
-		for (ContBancar cntB : c.conturi) {
+		for (ContBancar cntB : c.getConturi()) {
 			System.out.println("\t" + i + ". " + cntB.toString());
 			i++;
 		}
 		System.out.print("\tSelectati contul: ");
 		int index = input.nextInt();
 		i = 0;
-		for (ContBancar cntB : c.conturi) {
+		for (ContBancar cntB : c.getConturi()) {
 			if (index == i) {
 				cb = cntB;
 				break;
