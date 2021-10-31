@@ -25,7 +25,7 @@ public class ClientiiBancilor {
 			System.out.println("0. Iesire");
 			System.out.print("Optiunea selectata: ");
 			opt = input.nextInt();
-
+			input.nextLine();
 			switch (opt) {
 			case 1:
 				adaugareBanca();
@@ -59,30 +59,39 @@ public class ClientiiBancilor {
 	}
 
 	public void adaugareCont() throws IOException {
-		Client c = selecteazaClient(selecteazaBanca());
-		if (c != null) {
-			ContBancar cb;
-			String moneda = "";
-			System.out.println("\t0. RON\t1. EURO");
-			System.out.print("Moneda contului: ");
-			int i = input.nextInt();
-			boolean optiuneValida = true;
-			do {
-				switch (i) {
-				case 0:
-					moneda = "RON";
-					break;
-				case 1:
-					moneda = "EURO";
-					break;
-				default:
-					System.out.println("Optiune invalida!");
-					optiuneValida = false;
-					break;
+		Banca b = selecteazaBanca();
+		if (b != null) {
+			Client c = selecteazaClient(b);
+			if (c != null) {
+				if (c != null) {
+					ContBancar cb;
+					String moneda = "";
+					System.out.println("\t0. RON\t1. EURO");
+					System.out.print("Moneda contului: ");
+					int i = input.nextInt();
+					boolean optiuneValida = true;
+					do {
+						switch (i) {
+						case 0:
+							moneda = "RON";
+							break;
+						case 1:
+							moneda = "EURO";
+							break;
+						default:
+							System.out.println("Optiune invalida!");
+							optiuneValida = false;
+							break;
+						}
+					} while (!optiuneValida);
+					cb = new ContBancar(moneda);
+					c.addCont(cb);
 				}
-			} while (!optiuneValida);
-			cb = new ContBancar(moneda);
-			c.addCont(cb);
+			} else {
+				System.out.println("Client invalid!");
+			}
+		} else {
+			System.out.println("Banca invalida!");
 		}
 	}
 
@@ -90,7 +99,16 @@ public class ClientiiBancilor {
 		System.out.println("Bancile aflate in gestiune: ");
 		afisareBanci();
 		System.out.print("Selectati banca: ");
-		return banci.get(input.nextInt());
+		Banca b;
+		int index = input.nextInt();
+		if (index < banci.size()) {
+			b = banci.get(index);
+
+		} else {
+			System.out.println("Nu ati selectast o banca valida!");
+			b = null;
+		}
+		return b;
 	}
 
 	public Client selecteazaClient(Banca b) throws IOException {
@@ -99,13 +117,21 @@ public class ClientiiBancilor {
 			System.out.println("Clientii aflati in gestiunea bancii " + b.getDenumire_banca());
 			afisareClienti(b);
 			System.out.print("Selectati clientul: ");
-			return b.getClient(input.nextInt());
-			
+			Client c;
+			int index = input.nextInt();
+			if (index < b.getClienti().size()) {
+				c = b.getClient(index);
+			} else {
+				c = null;
+				System.out.println("Clientul selectat nu exista!");
+			}
+			return c;
+
 		} else {
-			
+
 			System.out.println("Banca nu are clienti in gestiune!");
 			return null;
-			
+
 		}
 	}
 
@@ -130,7 +156,12 @@ public class ClientiiBancilor {
 		afisareBanci();
 
 		System.out.print("Banca aleasa: ");
-		banci.elementAt(input.nextInt()).addClient(c);
+		int index = input.nextInt();
+		if (index < banci.size()) {
+			banci.elementAt(index).addClient(c);
+		} else {
+			System.out.println("Index invalid!");
+		}
 	}
 
 	public void afisareBanci() {
@@ -190,32 +221,69 @@ public class ClientiiBancilor {
 	}
 
 	public void depunereInCOnt() throws IOException {
-		Client c = selecteazaClient(selecteazaBanca());
-		ContBancar cntB = selecteazaCont(c);
-		System.out.print("\tSuma pentru depunere: ");
-		float suma = input.nextFloat();
-		cntB.depunere(suma);
+		Banca b = selecteazaBanca();
+		if (b != null) {
+			Client c = selecteazaClient(b);
+			if (c != null) {
+				ContBancar cntB = selecteazaCont(c);
+				if (cntB != null) {
+					System.out.print("\tSuma pentru depunere: ");
+					float suma = input.nextFloat();
+					cntB.depunere(suma);
+				} else {
+					System.out.println("Index invalid!");
+				}
+			}
+		} else {
+			System.out.println("Index invalid!");
+		}
 	}
 
 	public void extragereCont() throws IOException {
-		Client c = selecteazaClient(selecteazaBanca());
-		ContBancar cntB = selecteazaCont(c);
-		System.out.print("\tSuma pentru extragere: ");
-		float suma = input.nextFloat();
-		cntB.extragere(suma);
+		Banca b = selecteazaBanca();
+		if (b != null) {
+			Client c = selecteazaClient(b);
+			if (c != null) {
+				ContBancar cntB = selecteazaCont(c);
+				if (cntB != null) {
+					System.out.print("\tSuma pentru extragere: ");
+					float suma = input.nextFloat();
+					if (suma <= cntB.getSuma()) {
+						cntB.extragere(suma);
+					} else {
+						System.out.println("Clientul are soldul prea mic!");
+					}
+				}
+			}
+		} else {
+			System.out.println("Index invalid!");
+		}
+
 	}
 
 	public void transfer() throws IOException {
 		System.out.println("Primul client(de la care se transfera): ");
 		Client c = selecteazaClient(selecteazaBanca());
-		ContBancar cntB = selecteazaCont(c);
+		if (c != null) {
+			ContBancar cntB = selecteazaCont(c);
+			if (cntB != null) {
+				System.out.println("Al doilea client(la care se transfera): ");
+				Client c2 = selecteazaClient(selecteazaBanca());
+				if (c2 != null) {
+					ContBancar cntB2 = selecteazaCont(c2);
+					if (cntB2 != null) {
+						System.out.print("\tSuma pentru transfer: ");
+						float suma = input.nextFloat();
+						if (suma <= cntB.getSuma()) {
+							cntB.extragere(suma);
+							cntB2.depunere(suma);
+						} else {
+							System.out.println("Clientul de la care se transfera are soldul prea mic!");
+						}
+					}
+				}
+			}
 
-		System.out.println("Al doilea client(la care se transfera): ");
-		Client c2 = selecteazaClient(selecteazaBanca());
-		ContBancar cntB2 = selecteazaCont(c2);
-		System.out.print("\tSuma pentru transfer: ");
-		float suma = input.nextFloat();
-		cntB.extragere(suma);
-		cntB2.depunere(suma);
+		}
 	}
 }
