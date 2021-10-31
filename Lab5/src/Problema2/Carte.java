@@ -1,5 +1,7 @@
 package Problema2;
 
+import java.util.Comparator;
+
 public class Carte {
 	private String titlu, autor;
 	private int an_aparitie, ID;
@@ -65,4 +67,12 @@ public class Carte {
 		return titlu + ", " + autor + ", " + an_aparitie;
 	}
 	
+}
+class comparatorCarte implements Comparator<Carte> {
+
+	@Override
+	public int compare(Carte c1, Carte c2) {
+		return (c1.getTitlu().compareTo(c2.getTitlu()));
+	}
+
 }

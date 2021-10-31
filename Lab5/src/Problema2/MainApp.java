@@ -34,13 +34,13 @@ public class MainApp {
 			listaCarti.add(Carti.get(key));
 		}
 
-		System.out.println("\nLista cartilor: ");
+		System.out.println("\nLista carti: ");
 
 		for (Carte c : listaCarti) {
 			System.out.println(c.toString());
 		}
 
-		System.out.println("\nLista cartilor ordonate dupa titlu: ");
+		System.out.println("\nLista carti ordonate: ");
 
 		listaCarti.sort(new comparatorCarte());
 
@@ -53,12 +53,5 @@ public class MainApp {
 
 }
 
-class comparatorCarte implements Comparator<Carte> {
 
-	@Override
-	public int compare(Carte c1, Carte c2) {
-		return (c1.getTitlu().compareTo(c2.getTitlu()));
-	}
-
-}
 
