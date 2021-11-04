@@ -37,6 +37,10 @@ public class MainApp {
 }
 
 class numarMaiMic extends Exception {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int nr1;
 	private int nr2;
 
