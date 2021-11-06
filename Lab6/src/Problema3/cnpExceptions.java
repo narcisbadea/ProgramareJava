@@ -15,6 +15,8 @@ public class cnpExceptions extends Exception {
 
 	public String toString() {
 		switch (ex) {
+		case "cifre":
+			return "CNP-ul poate contine doar cifre!";
 		case "size":
 			return "CNP-ul trebuie sa aiba 13 cifre!";
 		case "cifraSexului":
@@ -23,7 +25,8 @@ public class cnpExceptions extends Exception {
 			return "Ziua nasterii nu este valida!";
 		case "lunaNasterii":
 			return "Luna nasterii nu este valida!";
-
+		case "codJudet":
+			return "Codul judetului nu este valid!";
 		default:
 			return null;
 		}
