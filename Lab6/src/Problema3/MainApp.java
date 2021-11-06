@@ -14,11 +14,20 @@ public class MainApp {
 			System.out.print("CNP: ");
 			cnp = input.nextLine();
 			try {
-				if (cnp.length() != 13) {
+				if (cnp.length() != 13)
 					throw new cnpExceptions("size");
-				}
+
 				if (!"1256".contains(cnp.substring(0, 1)))
 					throw new cnpExceptions("cifraSexului");
+				
+				int ziNastere = Integer.parseInt(cnp.substring(3, 5));
+				if(ziNastere<1||ziNastere>31)
+					throw new cnpExceptions("ziuaNasterii");
+				
+				int lunaNastere = Integer.parseInt(cnp.substring(5, 7));
+				if(lunaNastere<1||lunaNastere>12)
+					throw new cnpExceptions("lunaNasterii");
+				
 				valid = true;
 			} catch (cnpExceptions ex) {
 				System.out.println(ex.toString());

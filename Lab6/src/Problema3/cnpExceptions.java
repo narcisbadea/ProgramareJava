@@ -19,6 +19,10 @@ public class cnpExceptions extends Exception {
 			return "CNP-ul trebuie sa aiba 13 cifre!";
 		case "cifraSexului":
 			return "Cifra sexului nu este valida!";
+		case "ziuaNasterii":
+			return "Ziua nasterii nu este valida!";
+		case "lunaNasterii":
+			return "Luna nasterii nu este valida!";
 
 		default:
 			return null;
