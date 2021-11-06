@@ -45,6 +45,11 @@ public class MainApp {
 				int codJudet = Integer.parseInt(cnp.substring(7, 9));
 				if (codJudet < 1 || codJudet > 42)
 					throw new cnpExceptions("codJudet");
+
+				if (!cifraDeControl(cnp)) {
+					throw new cnpExceptions("cifraContro");
+				}
+
 				valid = true;
 			} catch (cnpExceptions ex) {
 				System.out.println(ex.toString());
@@ -57,11 +62,28 @@ public class MainApp {
 				Integer.parseInt(cnp.substring(3, 5)));
 		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-	    String dataNasteriiFormatata = dataNasterii.format(myFormatObj);
+		String dataNasteriiFormatata = dataNasterii.format(myFormatObj);
 		System.out.println("Data nasterii: " + dataNasteriiFormatata);
 		int vartsa = Period.between(dataNasterii, LocalDate.now()).getYears();
 
 		System.out.println("Varsta: " + vartsa);
+	}
+
+	public static boolean cifraDeControl(String cnp) {
+		String numarControl = "279146358279";
+		int suma = 0;
+		for (int i = 0; i < cnp.length() - 1; i++) {
+			suma += ((cnp.charAt(i) - '0') * (numarControl.charAt(i) - '0'));
+		}
+		suma %= 11;
+
+		if (suma == 10) {
+			suma = 1;
+		}
+		if (suma == (cnp.charAt(12) - '0'))
+			return true;
+
+		return false;
 	}
 
 }

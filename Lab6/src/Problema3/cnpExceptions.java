@@ -27,6 +27,8 @@ public class cnpExceptions extends Exception {
 			return "Luna nasterii nu este valida!";
 		case "codJudet":
 			return "Codul judetului nu este valid!";
+		case "cifraContro":
+			return "CNP invalid, cifra de control gresita!";
 		default:
 			return null;
 		}
