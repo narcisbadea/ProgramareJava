@@ -49,7 +49,11 @@ public class MainApp {
 				if (!cifraDeControl(cnp)) {
 					throw new cnpExceptions("cifraContro");
 				}
-
+				
+				if(cnp.substring(9, 12) == "000") {
+					throw new cnpExceptions("nrOrdine");
+				}
+				
 				valid = true;
 			} catch (cnpExceptions ex) {
 				System.out.println(ex.toString());

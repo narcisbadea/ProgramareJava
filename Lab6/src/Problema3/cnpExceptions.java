@@ -29,6 +29,8 @@ public class cnpExceptions extends Exception {
 			return "Codul judetului nu este valid!";
 		case "cifraContro":
 			return "CNP invalid, cifra de control gresita!";
+		case "nrOrdine":
+			return "Numarul de ordine este invalid!";
 		default:
 			return null;
 		}
