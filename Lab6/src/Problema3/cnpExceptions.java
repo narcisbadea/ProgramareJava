@@ -2,9 +2,6 @@ package Problema3;
 
 public class cnpExceptions extends Exception {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private String ex;

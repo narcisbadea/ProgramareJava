@@ -1,6 +1,6 @@
 package Problema1;
 
-class numarMaiMic extends Exception {
+class numarMaiMicException extends Exception {
 	/**
 	 * 
 	 */
@@ -8,7 +8,7 @@ class numarMaiMic extends Exception {
 	private int nr1;
 	private int nr2;
 
-	public numarMaiMic(int nr1, int nr2) {// constructor
+	public numarMaiMicException(int nr1, int nr2) {
 		this.nr1 = nr1;
 		this.nr2 = nr2;
 	}

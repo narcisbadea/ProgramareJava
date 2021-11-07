@@ -1,4 +1,4 @@
-package Problem2;
+package Problema2;
 
 public class divisionByZeroException extends Exception {
 

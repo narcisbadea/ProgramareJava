@@ -1,6 +1,5 @@
 package Problema1;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -18,17 +17,17 @@ public class MainApp {
 				System.out.print("Al doilea numar: ");
 				nr2 = input.nextInt();
 				if (nr1 > nr2) {
-					throw new numarMaiMic(nr1, nr2);
+					throw new numarMaiMicException(nr1, nr2);
 
 				} else
 					valid = true;
-			} catch (numarMaiMic ex) {
+			} catch (numarMaiMicException ex) {
 				System.out.println(ex.toString());
 			}
 		} while (!valid);
-		PrintStream writer;
-		writer = new PrintStream(new File(args[0]));
+		PrintStream writer = new PrintStream(args[0]);
 		writer.println(nr1 + " " + nr2);
+		System.out.println("Fisierul a fost scris cu succes!");
 		input.close();
 		writer.close();
 

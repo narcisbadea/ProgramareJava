@@ -1,4 +1,4 @@
-package Problem2;
+package Problema2;
 
 import java.util.Scanner;
 
@@ -32,5 +32,6 @@ public class MainApp {
 			}
 		} while (!valid);
 		System.out.println("Rezultatul impartirii este: " + ((float) nr1 / nr2));
+		input.close();
 	}
 }
