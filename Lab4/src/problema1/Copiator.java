@@ -1,6 +1,7 @@
 package problema1;
 
 public class Copiator extends Echipament {
+	private static final long serialVersionUID = 1L;
 	private int ppm;
 	private int p_ton;
 	private FormatCopiere formatCopiere;

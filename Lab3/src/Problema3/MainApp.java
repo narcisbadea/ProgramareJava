@@ -26,8 +26,10 @@ public class MainApp {
 		
 		String judetCautat = key.readLine();
 		int poz = Arrays.binarySearch(judete, judetCautat);
-		
-		System.out.print("Judetul cautat se afla pe pozitia: " + poz);
+		if(poz>-1)
+			System.out.print("Judetul cautat se afla pe pozitia: " + poz);
+		else
+			System.out.println("Judetul cautat nu exista");
 		reader.close();
 	}
 

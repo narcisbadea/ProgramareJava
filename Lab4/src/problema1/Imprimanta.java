@@ -1,6 +1,7 @@
 package problema1;
 
 public class Imprimanta extends Echipament {
+	private static final long serialVersionUID = 1L;
 	private int ppm;
 	private String rezolutie;
 	private int p_car;

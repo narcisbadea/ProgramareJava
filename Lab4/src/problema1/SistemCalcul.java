@@ -1,6 +1,7 @@
 package problema1;
 
 public class SistemCalcul extends Echipament {
+	private static final long serialVersionUID = 1L;
 	private String tip_mon;
 	private float vit_proc;
 	private int c_hdd;

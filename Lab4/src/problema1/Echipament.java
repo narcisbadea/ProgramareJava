@@ -3,6 +3,7 @@ package problema1;
 import java.io.Serializable;
 
 public class Echipament  implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String denumire;
 	private int nr_inv;
 	private float pret;
