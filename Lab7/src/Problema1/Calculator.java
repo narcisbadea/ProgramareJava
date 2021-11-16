@@ -20,6 +20,7 @@ public class Calculator extends JFrame {
 	private JTextField textFieldOperator1;
 	private JTextField textFieldOperator2;
 	private JLabel lblResult = new JLabel("",SwingConstants.CENTER);
+	private double operator1 = 0, operator2 = 0;
 
 	/**
 	 * Launch the application.
@@ -72,9 +73,8 @@ public class Calculator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int operator1 = 0, operator2 = 0;
-				operator1 = Integer.parseInt(textFieldOperator1.getText());
-				operator2 = Integer.parseInt(textFieldOperator2.getText());
+				operator1 = Double.parseDouble(textFieldOperator1.getText());
+				operator2 = Double.parseDouble(textFieldOperator2.getText());
 				lblResult.setText(String.valueOf(operator1 + operator2));
 
 			}
@@ -87,9 +87,8 @@ public class Calculator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int operator1 = 0, operator2 = 0;
-				operator1 = Integer.parseInt(textFieldOperator1.getText());
-				operator2 = Integer.parseInt(textFieldOperator2.getText());
+				operator1 = Double.parseDouble(textFieldOperator1.getText());
+				operator2 = Double.parseDouble(textFieldOperator2.getText());
 				lblResult.setText(String.valueOf(operator1 - operator2));
 
 			}
@@ -102,9 +101,8 @@ public class Calculator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int operator1 = 0, operator2 = 0;
-				operator1 = Integer.parseInt(textFieldOperator1.getText());
-				operator2 = Integer.parseInt(textFieldOperator2.getText());
+				operator1 = Double.parseDouble(textFieldOperator1.getText());
+				operator2 = Double.parseDouble(textFieldOperator2.getText());
 				lblResult.setText(String.valueOf(operator1 / operator2));
 
 			}
@@ -117,9 +115,8 @@ public class Calculator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int operator1 = 0, operator2 = 0;
-				operator1 = Integer.parseInt(textFieldOperator1.getText());
-				operator2 = Integer.parseInt(textFieldOperator2.getText());
+				operator1 = Double.parseDouble(textFieldOperator1.getText());
+				operator2 = Double.parseDouble(textFieldOperator2.getText());
 				lblResult.setText(String.valueOf(operator1 * operator2));
 
 			}
