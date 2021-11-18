@@ -1,6 +1,5 @@
 package Problema3;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -12,11 +11,16 @@ import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Filme extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -43,7 +47,7 @@ public class Filme extends JFrame {
 	 */
 	public Filme() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 462, 390);
+		setBounds(100, 100, 463, 423);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -98,17 +102,59 @@ public class Filme extends JFrame {
 		chckbxActiune.setBounds(182, 47, 97, 23);
 		panel.add(chckbxActiune);
 
-		String[][] date = { { "Film1", "Actor1, Actor2", "2015", "comedie, actiune" }, };
-		String[] coloane = { "Film", "Actori", "An lansare", "Genuri" };
-		table = new JTable(date, coloane);
+		DefaultTableModel model = new DefaultTableModel();
+		table = new JTable(model);
+		model.addColumn("Film");
+		model.addColumn("Actori");
+		model.addColumn("An lansare");
+		model.addColumn("Genuri");
 		JScrollPane sp = new JScrollPane(table);
-		sp.setBounds(10, 238, 426, 102);
+		sp.setBounds(10, 271, 426, 102);
 		contentPane.add(sp);
 
 		JSpinner spinner = new JSpinner();
 		spinner.setBounds(181, 67, 56, 20);
 		contentPane.add(spinner);
 		spinner.setModel(new SpinnerNumberModel(2020, 2015, 2020, 1));
+
+		JButton btnNewButton = new JButton("Adauga");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				String numeFilm = textField.getText(), numeActori = textField_1.getText(),
+						anLansare = spinner.getValue().toString();
+				String genuri = "";
+				if (chckbxComedie.isSelected()) {
+					genuri += chckbxComedie.getText() + " ";
+				}
+				if (chckbxDrama.isSelected()) {
+					genuri += chckbxDrama.getText() + " ";
+				}
+				if (chckbxRomantic.isSelected()) {
+					genuri += chckbxRomantic.getText() + " ";
+				}
+				if (chckbxIstoric.isSelected()) {
+					genuri += chckbxIstoric.getText() + " ";
+				}
+				if (chckbxActiune.isSelected()) {
+					genuri += chckbxActiune.getText() + " ";
+				}
+				model.addRow(new Object[] { numeFilm, numeActori, anLansare, genuri });
+				
+
+			}
+		});
+		btnNewButton.setBounds(37, 238, 89, 23);
+		contentPane.add(btnNewButton);
+
+		JButton btnNewButton_1 = new JButton("Sterge");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.removeRow(table.getSelectedRow());
+			}
+		});
+		btnNewButton_1.setBounds(283, 237, 89, 23);
+		contentPane.add(btnNewButton_1);
 		setVisible(true);
 	}
 }
