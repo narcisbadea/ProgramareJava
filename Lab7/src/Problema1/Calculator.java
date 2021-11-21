@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
@@ -17,9 +19,9 @@ public class Calculator extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textFieldOperator1;
-	private JTextField textFieldOperator2;
-	private JLabel lblResult = new JLabel("",SwingConstants.CENTER);
+	private JTextField txtOperator1;
+	private JTextField txtOperator2;
+	private JLabel lblResult = new JLabel("", SwingConstants.CENTER);
 	private double operator1 = 0, operator2 = 0;
 
 	/**
@@ -57,15 +59,15 @@ public class Calculator extends JFrame {
 		lblOperand.setBounds(29, 48, 74, 14);
 		contentPane.add(lblOperand);
 
-		textFieldOperator1 = new JTextField();
-		textFieldOperator1.setBounds(145, 14, 86, 20);
-		contentPane.add(textFieldOperator1);
-		textFieldOperator1.setColumns(10);
+		txtOperator1 = new JTextField();
+		txtOperator1.setBounds(145, 14, 86, 20);
+		contentPane.add(txtOperator1);
+		txtOperator1.setColumns(10);
 
-		textFieldOperator2 = new JTextField();
-		textFieldOperator2.setBounds(145, 45, 86, 20);
-		contentPane.add(textFieldOperator2);
-		textFieldOperator2.setColumns(10);
+		txtOperator2 = new JTextField();
+		txtOperator2.setBounds(145, 45, 86, 20);
+		contentPane.add(txtOperator2);
+		txtOperator2.setColumns(10);
 
 		JButton btnAdunare = new JButton("Adunare");
 		btnAdunare.setBounds(29, 86, 89, 23);
@@ -73,9 +75,13 @@ public class Calculator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				operator1 = Double.parseDouble(textFieldOperator1.getText());
-				operator2 = Double.parseDouble(textFieldOperator2.getText());
-				lblResult.setText(String.valueOf(operator1 + operator2));
+				try {
+					operator1 = Double.parseDouble(txtOperator1.getText());
+					operator2 = Double.parseDouble(txtOperator2.getText());
+					lblResult.setText(String.valueOf(operator1 + operator2));
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Formatul numerelor nu este corect!");
+				}
 
 			}
 		});
@@ -87,9 +93,13 @@ public class Calculator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				operator1 = Double.parseDouble(textFieldOperator1.getText());
-				operator2 = Double.parseDouble(textFieldOperator2.getText());
-				lblResult.setText(String.valueOf(operator1 - operator2));
+				try {
+					operator1 = Double.parseDouble(txtOperator1.getText());
+					operator2 = Double.parseDouble(txtOperator2.getText());
+					lblResult.setText(String.valueOf(operator1 - operator2));
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Formatul numerelor nu este corect!");
+				}
 
 			}
 		});
@@ -101,9 +111,19 @@ public class Calculator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				operator1 = Double.parseDouble(textFieldOperator1.getText());
-				operator2 = Double.parseDouble(textFieldOperator2.getText());
-				lblResult.setText(String.valueOf(operator1 / operator2));
+				try {
+					operator1 = Double.parseDouble(txtOperator1.getText());
+					operator2 = Double.parseDouble(txtOperator2.getText());
+					if (operator2 == 0) {
+						throw new divisionByZeroException();
+					}
+					lblResult.setText(String.valueOf(operator1 / operator2));
+
+				} catch (divisionByZeroException ex) {
+					JOptionPane.showMessageDialog(null, ex.toString());
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Formatul numerelor nu este corect!");
+				}
 
 			}
 		});
@@ -115,9 +135,13 @@ public class Calculator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				operator1 = Double.parseDouble(textFieldOperator1.getText());
-				operator2 = Double.parseDouble(textFieldOperator2.getText());
-				lblResult.setText(String.valueOf(operator1 * operator2));
+				try {
+					operator1 = Double.parseDouble(txtOperator1.getText());
+					operator2 = Double.parseDouble(txtOperator2.getText());
+					lblResult.setText(String.valueOf(operator1 * operator2));
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Formatul numerelor nu este corect!");
+				}
 
 			}
 		});
@@ -129,8 +153,8 @@ public class Calculator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textFieldOperator1.setText("");
-				textFieldOperator2.setText("");
+				txtOperator1.setText("");
+				txtOperator2.setText("");
 				lblResult.setText("");
 
 			}

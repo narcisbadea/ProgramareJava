@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 
@@ -52,6 +53,9 @@ public class Formatii extends JFrame {
 		
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		JList<String> list=new JList<String>(listModel);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportView(list);
+		list.setLayoutOrientation(JList.VERTICAL);
 		contentPane.add(list, BorderLayout.CENTER);
 		
 		textField = new JTextField();

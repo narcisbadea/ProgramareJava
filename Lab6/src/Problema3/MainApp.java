@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class MainApp {
 
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		String nume, cnp;
 		Scanner input = new Scanner(System.in);
 		System.out.print("Nume: ");
