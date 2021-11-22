@@ -40,10 +40,8 @@ public class Calculator extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Calculator() {
+		setTitle("Calculator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 271, 278);
 		contentPane = new JPanel();
@@ -51,13 +49,13 @@ public class Calculator extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Operand1");
-		lblNewLabel.setBounds(29, 17, 74, 14);
-		contentPane.add(lblNewLabel);
+		JLabel lblOperand1 = new JLabel("Operand1");
+		lblOperand1.setBounds(29, 17, 74, 14);
+		contentPane.add(lblOperand1);
 
-		JLabel lblOperand = new JLabel("Operand2");
-		lblOperand.setBounds(29, 48, 74, 14);
-		contentPane.add(lblOperand);
+		JLabel lblOperand2 = new JLabel("Operand2");
+		lblOperand2.setBounds(29, 48, 74, 14);
+		contentPane.add(lblOperand2);
 
 		txtOperator1 = new JTextField();
 		txtOperator1.setBounds(145, 14, 86, 20);
@@ -81,6 +79,7 @@ public class Calculator extends JFrame {
 					lblResult.setText(String.valueOf(operator1 + operator2));
 				} catch (NumberFormatException ex) {
 					JOptionPane.showMessageDialog(null, "Formatul numerelor nu este corect!");
+					lblResult.setText("EROARE");
 				}
 
 			}
@@ -99,6 +98,7 @@ public class Calculator extends JFrame {
 					lblResult.setText(String.valueOf(operator1 - operator2));
 				} catch (NumberFormatException ex) {
 					JOptionPane.showMessageDialog(null, "Formatul numerelor nu este corect!");
+					lblResult.setText("EROARE");
 				}
 
 			}
@@ -123,6 +123,7 @@ public class Calculator extends JFrame {
 					JOptionPane.showMessageDialog(null, ex.toString());
 				} catch (NumberFormatException ex) {
 					JOptionPane.showMessageDialog(null, "Formatul numerelor nu este corect!");
+					lblResult.setText("EROARE");
 				}
 
 			}
@@ -141,6 +142,7 @@ public class Calculator extends JFrame {
 					lblResult.setText(String.valueOf(operator1 * operator2));
 				} catch (NumberFormatException ex) {
 					JOptionPane.showMessageDialog(null, "Formatul numerelor nu este corect!");
+					lblResult.setText("EROARE");
 				}
 
 			}

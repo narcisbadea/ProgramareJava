@@ -25,7 +25,7 @@ public class Filme extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtFilm;
 	private JTextField txtActori;
-	private JTable table;
+	private JTable tableFilme;
 
 	/**
 	 * Launch the application.
@@ -47,76 +47,78 @@ public class Filme extends JFrame {
 	 * Create the frame.
 	 */
 	public Filme() {
+		setTitle("Filme");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 463, 360);
+		setBounds(100, 100, 589, 395);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Film");
-		lblNewLabel.setBounds(54, 21, 23, 14);
-		contentPane.add(lblNewLabel);
+		JLabel lblFilm = new JLabel("Film");
+		lblFilm.setBounds(115, 21, 23, 14);
+		contentPane.add(lblFilm);
 
-		JLabel lblNewLabel_1 = new JLabel("Actor");
-		lblNewLabel_1.setBounds(54, 46, 45, 14);
-		contentPane.add(lblNewLabel_1);
+		JLabel lblActor = new JLabel("Actor");
+		lblActor.setBounds(115, 46, 45, 14);
+		contentPane.add(lblActor);
 
 		txtFilm = new JTextField();
-		txtFilm.setBounds(147, 21, 242, 20);
+		txtFilm.setBounds(161, 18, 242, 20);
 		contentPane.add(txtFilm);
 		txtFilm.setColumns(10);
 
 		txtActori = new JTextField();
-		txtActori.setBounds(147, 43, 242, 20);
+		txtActori.setBounds(161, 43, 242, 20);
 		contentPane.add(txtActori);
 		txtActori.setColumns(10);
 
-		JLabel lblNewLabel_2 = new JLabel("An lansare");
-		lblNewLabel_2.setBounds(54, 68, 56, 14);
-		contentPane.add(lblNewLabel_2);
+		JLabel lblAnLAnsare = new JLabel("An lansare");
+		lblAnLAnsare.setBounds(115, 68, 78, 14);
+		contentPane.add(lblAnLAnsare);
 
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Genuri", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setToolTipText("");
-		panel.setBounds(54, 93, 335, 77);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		JPanel panelGenuri = new JPanel();
+		panelGenuri.setBorder(new TitledBorder(null, "Genuri", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelGenuri.setToolTipText("");
+		panelGenuri.setBounds(115, 93, 335, 77);
+		contentPane.add(panelGenuri);
+		panelGenuri.setLayout(null);
 
 		JCheckBox chckbxComedie = new JCheckBox("comedie");
 		chckbxComedie.setBounds(17, 21, 97, 23);
-		panel.add(chckbxComedie);
+		panelGenuri.add(chckbxComedie);
 
 		JCheckBox chckbxDrama = new JCheckBox("drama");
 		chckbxDrama.setBounds(138, 21, 97, 23);
-		panel.add(chckbxDrama);
+		panelGenuri.add(chckbxDrama);
 
 		JCheckBox chckbxRomantic = new JCheckBox("romantic");
 		chckbxRomantic.setBounds(248, 21, 81, 23);
-		panel.add(chckbxRomantic);
+		panelGenuri.add(chckbxRomantic);
 
 		JCheckBox chckbxIstoric = new JCheckBox("istoric");
 		chckbxIstoric.setBounds(65, 47, 97, 23);
-		panel.add(chckbxIstoric);
+		panelGenuri.add(chckbxIstoric);
 
 		JCheckBox chckbxActiune = new JCheckBox("actiune");
 		chckbxActiune.setBounds(182, 47, 97, 23);
-		panel.add(chckbxActiune);
+		panelGenuri.add(chckbxActiune);
 
-		DefaultTableModel model = new DefaultTableModel();
-		table = new JTable(model);
-		model.addColumn("Film");
-		model.addColumn("Actori");
-		model.addColumn("An lansare");
-		model.addColumn("Genuri");
-		JScrollPane sp = new JScrollPane(table);
-		sp.setBounds(10, 208, 426, 102);
+		DefaultTableModel modelTableFilme = new DefaultTableModel();
+		tableFilme = new JTable(modelTableFilme);
+		modelTableFilme.addColumn("Film");
+		modelTableFilme.addColumn("Actori");
+		modelTableFilme.addColumn("An lansare");
+		modelTableFilme.addColumn("Genuri");
+		JScrollPane sp = new JScrollPane(tableFilme);
+		sp.setBounds(10, 208, 553, 137);
 		contentPane.add(sp);
 
-		JSpinner spinner = new JSpinner();
-		spinner.setBounds(240, 65, 56, 20);
-		contentPane.add(spinner);
-		spinner.setModel(new SpinnerNumberModel(2020, 2015, 2020, 1));
+		JSpinner spnAnLansare = new JSpinner();
+		spnAnLansare.setBounds(254, 65, 56, 20);
+		contentPane.add(spnAnLansare);
+		spnAnLansare.setModel(new SpinnerNumberModel(2020, 2015, 2020, 1));
 
 		JButton btnAdaugare = new JButton("Adauga");
 		btnAdaugare.addActionListener(new ActionListener() {
@@ -128,7 +130,7 @@ public class Filme extends JFrame {
 						JOptionPane.showMessageDialog(null, "Numele actorilor lipsesc!");
 					} else {
 						String numeFilm = txtFilm.getText(), numeActori = txtActori.getText(),
-								anLansare = spinner.getValue().toString(), genuri = "";
+								anLansare = spnAnLansare.getValue().toString(), genuri = "";
 						if (chckbxComedie.isSelected()) {
 							genuri += chckbxComedie.getText() + " ";
 						}
@@ -147,27 +149,27 @@ public class Filme extends JFrame {
 						if (genuri.isBlank()) {
 							JOptionPane.showMessageDialog(null, "Genul filmului lipseste!");
 						} else {
-							model.addRow(new Object[] { numeFilm, numeActori, anLansare, genuri });
+							modelTableFilme.addRow(new Object[] { numeFilm, numeActori, anLansare, genuri });
 						}
 					}
 				}
 
 			}
 		});
-		btnAdaugare.setBounds(10, 177, 89, 23);
+		btnAdaugare.setBounds(115, 174, 89, 23);
 		contentPane.add(btnAdaugare);
 
 		JButton btnStergere = new JButton("Sterge");
 		btnStergere.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (table.getSelectedRow() < 0) {
+				if (tableFilme.getSelectedRow() < 0) {
 					JOptionPane.showMessageDialog(null, "Nu ati selectat niciun film!");
 				} else {
-					model.removeRow(table.getSelectedRow());
+					modelTableFilme.removeRow(tableFilme.getSelectedRow());
 				}
 			}
 		});
-		btnStergere.setBounds(347, 177, 89, 23);
+		btnStergere.setBounds(361, 174, 89, 23);
 		contentPane.add(btnStergere);
 		setVisible(true);
 	}
