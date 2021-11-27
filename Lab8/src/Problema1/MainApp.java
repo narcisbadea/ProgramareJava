@@ -15,21 +15,42 @@ import java.awt.FlowLayout;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.sql.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MainApp extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private static Connection con;
+
 	private JTextField txtId;
 	private JTextField txtNume;
 	private JTextField txtVarsta;
-	JTextField txtAfis;
+	private JTextField txtAfis;
+
+	private JButton btnAdd;
+	private JButton btnEdit;
+	private JButton btnDelete;
+	private JButton btnFind;
+	private JButton btnSave;
+	private JButton btnLast;
+	private JButton btnNext;
+	private JButton btnPrevious;
+	private JButton btnFirst;
+	private JButton btnUndo;
+
+	private JLabel lblId;
+
+	private JToolBar myBar;
+
 	private ResultSet rs;
+	private boolean editMode = false;
+	private boolean insertMode = false;
 
 	/**
 	 * Launch the application.
@@ -40,7 +61,6 @@ public class MainApp extends JFrame {
 				try {
 					MainApp frame = new MainApp();
 					frame.setVisible(true);
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,11 +69,6 @@ public class MainApp extends JFrame {
 	}
 
 	public MainApp() throws SQLException {
-		String url = "jdbc:mysql://localhost:3306/test";
-		con = DriverManager.getConnection(url, "root", "");
-		Statement sql;
-		sql = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -61,26 +76,150 @@ public class MainApp extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 
-		JToolBar myBar = new JToolBar();
-		contentPane.add(myBar, BorderLayout.NORTH);
+		String url = "jdbc:mysql://localhost:3306/test";
+		Connection con = DriverManager.getConnection(url, "root", "");
+		Statement sql = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		rs = sql.executeQuery("select * from persoane");
 
-		JButton btnFirst = new JButton();
-		JButton btnPrevious = new JButton();
-		btnPrevious.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {// inchidere conexiuni la inchiderea aplicatiei
 				try {
-					if (rs.getRow() > 1) {
-						rs.previous();
-						updateFields();
-					}
+					rs.close();
+					con.close();
+					sql.close();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 		});
+
+		myBar = new JToolBar();
+		contentPane.add(myBar, BorderLayout.NORTH);
+
+		lblId = new JLabel("Id");
+
+		btnFirst = new JButton();
+		btnFirst.setIcon(new ImageIcon(MainApp.class.getResource("/Images/MoveFirst.png")));
+		myBar.add(btnFirst);
+
+		btnPrevious = new JButton();
 		btnPrevious.setIcon(new ImageIcon(MainApp.class.getResource("/Images/MovePrevious.png")));
-		JButton btnNext = new JButton();
+		myBar.add(btnPrevious);
+
+		txtAfis = new JTextField();
+		txtAfis.setHorizontalAlignment(JTextField.CENTER);
+		myBar.add(txtAfis);
+
+		btnNext = new JButton();
+		btnNext.setIcon(new ImageIcon(MainApp.class.getResource("/Images/MoveNext.png")));
+		myBar.add(btnNext);
+
+		btnLast = new JButton();
+		btnLast.setIcon(new ImageIcon(MainApp.class.getResource("/Images/MoveLast.png")));
+		myBar.add(btnLast);
+
+		btnAdd = new JButton();
+		btnAdd.setIcon(new ImageIcon(MainApp.class.getResource("/Images/Add.png")));
+		myBar.add(btnAdd);
+
+		btnEdit = new JButton();
+		btnEdit.setIcon(new ImageIcon(MainApp.class.getResource("/Images/Edit.png")));
+		myBar.add(btnEdit);
+
+		btnDelete = new JButton();
+		btnDelete.setIcon(new ImageIcon(MainApp.class.getResource("/Images/Delete.png")));
+		myBar.add(btnDelete);
+
+		btnFind = new JButton();
+		btnFind.setIcon(new ImageIcon(MainApp.class.getResource("/Images/find.JPG")));
+		myBar.add(btnFind);
+
+		btnSave = new JButton();
+		btnSave.setIcon(new ImageIcon(MainApp.class.getResource("/Images/save.JPG")));
+		myBar.add(btnSave);
+
+		btnUndo = new JButton();
+		btnUndo.setIcon(new ImageIcon(MainApp.class.getResource("/Images/undo.JPG")));
+		myBar.add(btnUndo);
+
+		btnUndo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				disableEdit();
+				if (insertMode) {
+					try {
+						rs.first();
+						updateFields();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
+				insertMode = false;
+				editMode = false;
+
+			}
+		});
+
+		btnFind.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String wanted = JOptionPane.showInputDialog("Numele: ");
+				try {
+					while (!rs.first()) {
+						rs.previous();
+					}
+					while (!rs.getString(2).equals(wanted)) {
+						rs.next();
+					}
+					btnPrevious.setEnabled(rs.getRow() > 1);
+					btnFirst.setEnabled(rs.getRow() > 1);
+					btnLast.setEnabled(rs.getRow() < sizeOfTable("persoane"));
+					btnNext.setEnabled(rs.getRow() < sizeOfTable("persoane"));
+
+					updateFields();
+
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
+
+		btnFirst.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					rs.first();
+					updateFields();
+					btnNext.setEnabled(true);
+					btnLast.setEnabled(true);
+					if (rs.getRow() == 1) {
+						btnFirst.setEnabled(false);
+						btnPrevious.setEnabled(false);
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnPrevious.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if (rs.getRow() > 1) {
+						rs.previous();
+						updateFields();
+						btnNext.setEnabled(true);
+						btnLast.setEnabled(true);
+						if (rs.getRow() == 1) {
+							btnFirst.setEnabled(false);
+							btnPrevious.setEnabled(false);
+						}
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -88,6 +227,12 @@ public class MainApp extends JFrame {
 					if (rs.getRow() < sizeOfTable("persoane")) {
 						rs.next();
 						updateFields();
+						btnFirst.setEnabled(true);
+						btnPrevious.setEnabled(true);
+						if (rs.getRow() == sizeOfTable("persoane")) {
+							btnNext.setEnabled(false);
+							btnLast.setEnabled(false);
+						}
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -95,37 +240,91 @@ public class MainApp extends JFrame {
 
 			}
 		});
-		JButton btnLast = new JButton();
-		JButton btnAdd = new JButton();
-		JButton btnEdit = new JButton();
-		JButton btnDelete = new JButton();
-		JButton btnFind = new JButton();
-		JButton btnSave = new JButton();
-		JButton btnUndo = new JButton();
-		txtAfis = new JTextField();
-		txtAfis.setHorizontalAlignment(JTextField.CENTER);
 
-		btnFirst.setIcon(new ImageIcon(MainApp.class.getResource("/Images/MoveFirst.png")));
-		btnNext.setIcon(new ImageIcon(MainApp.class.getResource("/Images/MoveNext.png")));
-		btnLast.setIcon(new ImageIcon(MainApp.class.getResource("/Images/MoveLast.png")));
-		btnAdd.setIcon(new ImageIcon(MainApp.class.getResource("/Images/Add.png")));
-		btnEdit.setIcon(new ImageIcon(MainApp.class.getResource("/Images/Edit.png")));
-		btnDelete.setIcon(new ImageIcon(MainApp.class.getResource("/Images/Delete.png")));
-		btnFind.setIcon(new ImageIcon(MainApp.class.getResource("/Images/Edit.png")));
-		btnSave.setIcon(new ImageIcon(MainApp.class.getResource("/Images/save.JPG")));
-		btnUndo.setIcon(new ImageIcon(MainApp.class.getResource("/Images/undo.JPG")));
+		btnLast.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					rs.last();
+					updateFields();
+					btnFirst.setEnabled(true);
+					btnPrevious.setEnabled(true);
+					if (rs.getRow() == sizeOfTable("persoane")) {
+						btnNext.setEnabled(false);
+						btnLast.setEnabled(false);
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 
-		myBar.add(btnFirst);
-		myBar.add(btnPrevious);
-		myBar.add(txtAfis);
-		myBar.add(btnNext);
-		myBar.add(btnLast);
-		myBar.add(btnAdd);
-		myBar.add(btnEdit);
-		myBar.add(btnDelete);
-		myBar.add(btnFind);
-		myBar.add(btnSave);
-		myBar.add(btnUndo);
+			}
+		});
+
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				insertMode = true;
+				try {
+					addRegister();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				enableEdit();
+			}
+		});
+
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					rs.deleteRow();
+					updateFields();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
+
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					rs.updateString(2, txtNume.getText());
+					rs.updateInt(3, Integer.parseInt(txtVarsta.getText()));
+					if (insertMode) {
+						rs.insertRow();
+						insertMode = false;
+						txtId.setVisible(true);
+						lblId.setVisible(true);
+						rs.last();
+						updateFields();
+					}
+
+					if (editMode) {
+						rs.updateRow();
+						updateFields();
+						editMode = false;
+					}
+					disableEdit();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				editMode = true;
+				txtNume.setEditable(true);
+				txtVarsta.setEditable(true);
+				btnFirst.setEnabled(false);
+				btnPrevious.setEnabled(false);
+				btnNext.setEnabled(false);
+				btnLast.setEnabled(false);
+				btnAdd.setEnabled(false);
+				btnEdit.setEnabled(false);
+				btnDelete.setEnabled(false);
+				btnFind.setEnabled(false);
+
+			}
+		});
 
 		JPanel panelCenter = new JPanel();
 		contentPane.add(panelCenter, BorderLayout.CENTER);
@@ -136,7 +335,6 @@ public class MainApp extends JFrame {
 		panelLeft.setLayout(new BoxLayout(panelLeft, BoxLayout.Y_AXIS));
 		panelLeft.add(Box.createVerticalStrut(10));
 
-		JLabel lblId = new JLabel("Id");
 		panelLeft.add(lblId);
 		panelLeft.add(Box.createVerticalStrut(7));
 
@@ -165,19 +363,35 @@ public class MainApp extends JFrame {
 		txtVarsta = new JTextField();
 		panelRight.add(txtVarsta);
 		txtVarsta.setColumns(10);
-		rs = sql.executeQuery("select * from persoane");
 		initTxtFields();
+
+		btnFirst.setEnabled(false);
+		btnPrevious.setEnabled(false);
+		txtAfis.setEditable(false);
+		txtId.setEditable(false);
+		txtNume.setEditable(false);
+		txtVarsta.setEditable(false);
+
+	}
+
+	private void addRegister() throws SQLException {
+		rs.moveToInsertRow();
+		txtNume.setEditable(true);
+		txtVarsta.setEditable(true);
+		updateFields();
 
 	}
 
 	private int sizeOfTable(String table) throws SQLException {
-
+		String url = "jdbc:mysql://localhost:3306/test";
+		Connection con = DriverManager.getConnection(url, "root", "");
 		Statement sql = con.createStatement();
 		ResultSet count = sql.executeQuery("SELECT COUNT(*) FROM " + table);
 		count.next();
 		int size = count.getInt(1);
 		sql.close();
 		count.close();
+		con.close();
 		return size;
 	}
 
@@ -193,6 +407,36 @@ public class MainApp extends JFrame {
 	private void initTxtFields() throws SQLException {
 		rs.next();
 		updateFields();
+	}
+
+	private void enableEdit() {
+		txtId.setVisible(false);
+		lblId.setVisible(false);
+		txtNume.setEditable(true);
+		txtVarsta.setEditable(true);
+		btnFirst.setEnabled(false);
+		btnPrevious.setEnabled(false);
+		btnNext.setEnabled(false);
+		btnLast.setEnabled(false);
+		btnAdd.setEnabled(false);
+		btnEdit.setEnabled(false);
+		btnDelete.setEnabled(false);
+		btnFind.setEnabled(false);
+	}
+
+	private void disableEdit() {
+		txtId.setVisible(true);
+		lblId.setVisible(true);
+		txtNume.setEditable(false);
+		txtVarsta.setEditable(false);
+		btnFirst.setEnabled(true);
+		btnPrevious.setEnabled(true);
+		btnNext.setEnabled(true);
+		btnLast.setEnabled(true);
+		btnAdd.setEnabled(true);
+		btnEdit.setEnabled(true);
+		btnDelete.setEnabled(true);
+		btnFind.setEnabled(true);
 	}
 
 }
