@@ -83,13 +83,12 @@ public class MainApp extends JFrame {
 
 		addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(WindowEvent e) {// inchidere conexiuni la inchiderea aplicatiei
+			public void windowClosing(WindowEvent e) {
 				try {
 					rs.close();
 					con.close();
 					sql.close();
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -146,17 +145,21 @@ public class MainApp extends JFrame {
 
 		btnUndo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				disableEdit();
-				if (insertMode) {
-					try {
-						rs.first();
-						updateFields();
-					} catch (SQLException e1) {
-						e1.printStackTrace();
+				try {
+					if (editMode || insertMode) {
+						disableEdit();
+						if (insertMode) {
+
+							rs.first();
+							updateFields();
+
+						}
+						insertMode = false;
+						editMode = false;
 					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
 				}
-				insertMode = false;
-				editMode = false;
 
 			}
 		});
@@ -271,11 +274,16 @@ public class MainApp extends JFrame {
 			}
 		});
 
+		;
+
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					rs.deleteRow();
-					updateFields();
+					int a = JOptionPane.showConfirmDialog(null, "Sunteti sigur?");
+					if (a == JOptionPane.YES_OPTION) {
+						rs.deleteRow();
+						updateFields();
+					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -285,26 +293,28 @@ public class MainApp extends JFrame {
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					rs.updateString(2, txtNume.getText());
-					rs.updateInt(3, Integer.parseInt(txtVarsta.getText()));
-					if (insertMode) {
-						rs.insertRow();
-						insertMode = false;
-						txtId.setVisible(true);
-						lblId.setVisible(true);
-						rs.last();
-						updateFields();
-					}
+				if (editMode || insertMode) {
+					try {
+						rs.updateString(2, txtNume.getText());
+						rs.updateInt(3, Integer.parseInt(txtVarsta.getText()));
+						if (insertMode) {
+							rs.insertRow();
+							insertMode = false;
+							txtId.setVisible(true);
+							lblId.setVisible(true);
+							rs.last();
+							updateFields();
+						}
 
-					if (editMode) {
-						rs.updateRow();
-						updateFields();
-						editMode = false;
+						if (editMode) {
+							rs.updateRow();
+							updateFields();
+							editMode = false;
+						}
+						disableEdit();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
 					}
-					disableEdit();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
 				}
 			}
 		});
@@ -312,17 +322,7 @@ public class MainApp extends JFrame {
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editMode = true;
-				txtNume.setEditable(true);
-				txtVarsta.setEditable(true);
-				btnFirst.setEnabled(false);
-				btnPrevious.setEnabled(false);
-				btnNext.setEnabled(false);
-				btnLast.setEnabled(false);
-				btnAdd.setEnabled(false);
-				btnEdit.setEnabled(false);
-				btnDelete.setEnabled(false);
-				btnFind.setEnabled(false);
-
+				enableEdit();
 			}
 		});
 
@@ -424,15 +424,19 @@ public class MainApp extends JFrame {
 		btnFind.setEnabled(false);
 	}
 
-	private void disableEdit() {
+	private void disableEdit() throws SQLException {
 		txtId.setVisible(true);
 		lblId.setVisible(true);
 		txtNume.setEditable(false);
 		txtVarsta.setEditable(false);
-		btnFirst.setEnabled(true);
-		btnPrevious.setEnabled(true);
-		btnNext.setEnabled(true);
-		btnLast.setEnabled(true);
+		if (rs.getRow() != 1) {
+			btnFirst.setEnabled(true);
+			btnPrevious.setEnabled(true);
+		}
+		if (rs.getRow() != sizeOfTable("persoane")) {
+			btnNext.setEnabled(true);
+			btnLast.setEnabled(true);
+		}
 		btnAdd.setEnabled(true);
 		btnEdit.setEnabled(true);
 		btnDelete.setEnabled(true);
