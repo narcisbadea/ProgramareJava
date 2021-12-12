@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.JLabel;
@@ -26,7 +27,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import javax.swing.JScrollPane;
-
 
 public class MainApp extends JFrame {
 
@@ -60,19 +60,19 @@ public class MainApp extends JFrame {
 	public MainApp() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 410, 420);
+		setBounds(100, 100, 438, 424);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		lblTime = new JLabel("00:00:00");
-		lblTime.setBounds(332, 49, 44, 14);
+		lblTime.setBounds(345, 49, 81, 14);
 		contentPane.add(lblTime);
-		
+
 		tree = new JTree();
 		tree.setBounds(10, 74, 416, 189);
-		
+
 		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
 		root.removeAllChildren();
@@ -84,6 +84,9 @@ public class MainApp extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser file = new JFileChooser();
 				file.setCurrentDirectory(new File(System.getProperty("user.dir")));
+				file.setAcceptAllFileFilterUsed(false);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("xml","xml");
+				file.addChoosableFileFilter(filter);
 				int result = file.showOpenDialog(null);
 				if (result == JFileChooser.APPROVE_OPTION) {
 					File selectedFile = file.getSelectedFile();
@@ -92,10 +95,12 @@ public class MainApp extends JFrame {
 						DocumentBuilder builder = factory.newDocumentBuilder();
 						Document document = builder.parse(selectedFile.getAbsolutePath());
 						Element elt = document.getDocumentElement();
-						DefaultMutableTreeNode defaultMutableTreeNode = new DefaultMutableTreeNode(elt.getNodeName());
-						DefaultTreeModel defaultTreeModel = new DefaultTreeModel(defaultMutableTreeNode);
-						tree.setModel(defaultTreeModel);
-						rec(elt, defaultMutableTreeNode);
+
+						DefaultMutableTreeNode mutableTreeNode = new DefaultMutableTreeNode(elt.getNodeName());
+						DefaultTreeModel treeModel = new DefaultTreeModel(mutableTreeNode);
+
+						tree.setModel(treeModel);
+						rec(elt, mutableTreeNode);
 					} catch (Exception e2) {
 						System.out.println(e.toString());
 					}
@@ -103,14 +108,13 @@ public class MainApp extends JFrame {
 
 			}
 		});
-		btnOpenXML.setBounds(20, 45, 131, 23);
+		btnOpenXML.setBounds(12, 45, 131, 23);
 		contentPane.add(btnOpenXML);
-		
+
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 79, 356, 294);
+		scrollPane.setBounds(12, 79, 414, 294);
 		contentPane.add(scrollPane);
-		
-		
+
 		scrollPane.setViewportView(tree);
 
 		timer = new Timer();
@@ -126,16 +130,16 @@ public class MainApp extends JFrame {
 		}
 	}
 
-	public static void rec(Node n, DefaultMutableTreeNode defaultMutableTreeNode) {
-		if (n != null) {
-			Node childNode = n.getFirstChild();
+	public static void rec(Node root, DefaultMutableTreeNode mutableTreeNode) {
+		if (root != null) {
+			Node childNode = root.getFirstChild();
 			while (childNode != null) {
 				if (childNode.getNodeType() == Node.TEXT_NODE && !childNode.getNodeValue().trim().isEmpty()) {
 					DefaultMutableTreeNode tree_child = new DefaultMutableTreeNode(childNode.getNodeValue().trim());
-					defaultMutableTreeNode.add(tree_child);
+					mutableTreeNode.add(tree_child);
 				} else if (childNode.getNodeType() != Node.TEXT_NODE) {
 					DefaultMutableTreeNode tree_child = new DefaultMutableTreeNode(childNode.getNodeName().trim());
-					defaultMutableTreeNode.add(tree_child);
+					mutableTreeNode.add(tree_child);
 					rec(childNode, tree_child);
 				}
 				childNode = childNode.getNextSibling();
