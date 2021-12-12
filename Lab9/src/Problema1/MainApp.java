@@ -37,7 +37,6 @@ public class MainApp extends JFrame {
 	Calendar curent;
 	private JScrollPane scrollPane;
 	JTree tree;
-	static JFileChooser file;
 
 	/**
 	 * Launch the application.
@@ -47,7 +46,6 @@ public class MainApp extends JFrame {
 			public void run() {
 				try {
 					MainApp frame = new MainApp();
-					file = new JFileChooser();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -84,6 +82,7 @@ public class MainApp extends JFrame {
 		JButton btnOpenXML = new JButton("Open XML");
 		btnOpenXML.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JFileChooser file = new JFileChooser();
 				file.setCurrentDirectory(new File(System.getProperty("user.dir")));
 				int result = file.showOpenDialog(null);
 				if (result == JFileChooser.APPROVE_OPTION) {
