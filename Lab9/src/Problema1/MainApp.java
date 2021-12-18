@@ -60,7 +60,7 @@ public class MainApp extends JFrame {
 	public MainApp() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 438, 424);
+		setBounds(100, 100, 445, 424);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -84,9 +84,11 @@ public class MainApp extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser file = new JFileChooser();
 				file.setCurrentDirectory(new File(System.getProperty("user.dir")));
+				
 				file.setAcceptAllFileFilterUsed(false);
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("xml","xml");
 				file.addChoosableFileFilter(filter);
+				
 				int result = file.showOpenDialog(null);
 				if (result == JFileChooser.APPROVE_OPTION) {
 					File selectedFile = file.getSelectedFile();
