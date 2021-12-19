@@ -15,21 +15,21 @@ public class MainApp {
 		
 		System.out.println("Angajatii: ");
 		angajati
-		.stream()
-		.forEach(System.out::println);
+			.stream()
+			.forEach(System.out::println);
 		System.out.println();
 		
 		System.out.println("Angajatii cu salariul > 2500: ");
 		angajati
-		.stream()
-		.filter(angajat -> angajat.getSalariu() > 2500)
-		.forEach(System.out::println);
+			.stream()
+			.filter(angajat -> angajat.getSalariu() > 2500)
+			.forEach(System.out::println);
 		System.out.println();
 		
-		System.out.println("Sefi si directorii angajati in aprilie: ");
+		System.out.println("Sefi si directori angajati in aprilie: ");
 		angajati
 			.stream()
-			.filter(angajat -> (angajat.getDataAngajare().getMonth()==Month.APRIL)&&(angajat.getPostul().toLowerCase().equals("sef")||angajat.getPostul().toLowerCase().equals("director")))
+			.filter(angajat -> (angajat.getDataAngajare().getMonth()==Month.APRIL) && (angajat.getPostul().toLowerCase().equals("sef") || angajat.getPostul().toLowerCase().equals("director")))
 			.collect(Collectors.toList())
 			.stream()
 			.forEach(System.out::println);
@@ -43,18 +43,16 @@ public class MainApp {
 			.collect(Collectors.toList())
 			.stream()
 			.forEach(System.out::println);
-		
 		System.out.println();
+		
 		System.out.println("Numele angajatilor cu majuscule: ");
-		
-		
 		angajati
 			.stream()
 			.map(Angajat::getNume)
 			.map(String::toUpperCase)
 			.forEach(System.out::println);
-		
 		System.out.println();
+		
 		
 		System.out.println("Salariile mai mici de 3000: ");
 		angajati
@@ -62,9 +60,6 @@ public class MainApp {
 			.map(Angajat::getSalariu)
 			.filter(salariu -> salariu < 3000)
 			.forEach(System.out::println);
-
-		
-		System.out.println();
 	}
 
 	public static List<Angajat> citireAngajati() {
