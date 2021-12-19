@@ -1,0 +1,5 @@
+Popescu Andrei,stivuitorist,13.5.2005,2300
+Ionescu Cristian,sef,1.04.1999,3000
+Gheorghe Alexandru,director,12.7.2011,4250
+Toma Emil,director,12.4.2000,5600
+Vasile Stefan,manipulator marfa,12.8.2012,1800
