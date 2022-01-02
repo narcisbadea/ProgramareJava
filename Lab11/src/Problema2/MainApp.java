@@ -8,7 +8,7 @@ public class MainApp {
 		Intrare intrare1 = new Intrare("1", parcare);
 		Intrare intrare2 = new Intrare("2", parcare);
 		Intrare intrare3 = new Intrare("3", parcare);
-		Iesire iesire1 = new Iesire("4", parcare);
+		Iesire iesire1 = new Iesire("Iesire", parcare);
 
 		intrare1.start();
 		intrare2.start();
@@ -16,9 +16,8 @@ public class MainApp {
 		iesire1.start();
 
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

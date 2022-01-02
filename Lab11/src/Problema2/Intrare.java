@@ -4,21 +4,19 @@ import java.util.Random;
 
 public class Intrare extends Thread {
 	private Parcare p;
-	private Random random;
+	private Random random = new Random();
 
 	public Intrare(String nume, Parcare p) {
 		super(nume);
-		this.random = new Random();
 		this.p = p;
 	}
 
 	public void run() {
 		while (true) {
-			p.Ocupa(getName());
+			p.Intra(getName());
 			try {
-				Thread.sleep(random.nextInt(5000));
+				Thread.sleep(random.nextInt(2000));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

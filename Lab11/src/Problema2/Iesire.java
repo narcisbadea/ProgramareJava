@@ -4,21 +4,19 @@ import java.util.Random;
 
 public class Iesire extends Thread {
 	private Parcare p;
-	private Random random;
+	private Random random = new Random();
 
 	public Iesire(String nume, Parcare p) {
 		super(nume);
-		this.random = new Random();
 		this.p = p;
 	}
 
 	public void run() {
 		while (true) {
-			p.Pleaca();
+			p.Iasa();
 			try {
-				Thread.sleep(random.nextInt(3000));
+				Thread.sleep(random.nextInt(1500));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
