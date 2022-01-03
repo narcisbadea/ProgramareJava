@@ -3,22 +3,20 @@ package Problema1;
 public class MainApp {
 
 	public static void main(String[] args) {
-		
-		ContBancar cont = new ContBancar();
-	
-		Depunere depune = new Depunere("depunere", cont);
-		Extragere extrage = new Extragere("extragere", cont);
-		
+
+		ContBancar cb = new ContBancar();
+		Depunere depune = new Depunere("depunere", cb);
+		Extragere extrage = new Extragere("extragere", cb);
+
 		depune.start();
 		extrage.start();
-		
+
 		try {
-			Thread.sleep(20000);
+			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		System.exit(0);
 	}
 

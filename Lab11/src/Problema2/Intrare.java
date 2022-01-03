@@ -3,17 +3,17 @@ package Problema2;
 import java.util.Random;
 
 public class Intrare extends Thread {
-	private Parcare p;
+	private Parcare parcare;
 	private Random random = new Random();
 
-	public Intrare(String nume, Parcare p) {
+	public Intrare(String nume, Parcare parcare) {
 		super(nume);
-		this.p = p;
+		this.parcare = parcare;
 	}
 
 	public void run() {
 		while (true) {
-			p.Intra(getName());
+			parcare.Intra(getName());
 			try {
 				Thread.sleep(random.nextInt(2000));
 			} catch (InterruptedException e) {

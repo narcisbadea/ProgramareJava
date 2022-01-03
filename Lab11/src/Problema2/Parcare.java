@@ -2,15 +2,12 @@ package Problema2;
 
 public class Parcare {
 
-	private int locauriOcupate = 0;
+	private int locuriOcupate = 0;
 	private boolean disponibil = true;
 	private final int nrMaximLocuri = 10;
 
-	public Parcare() {
-	}
-
 	synchronized public void Intra(String nume) {
-		while (!disponibil || locauriOcupate == nrMaximLocuri) {
+		while (!disponibil || locuriOcupate == nrMaximLocuri) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -19,17 +16,16 @@ public class Parcare {
 		}
 
 		disponibil = false;
-
-		locauriOcupate++;
-		System.out.println(
-				"+ A intrat o masina pe intrarea " + nume + ". In parcare sunt " + locauriOcupate + " masini.");
+		locuriOcupate++;
+		System.out
+				.println("+ A intrat o masina pe intrarea " + nume + ". In parcare sunt " + locuriOcupate + " masini.");
 		disponibil = true;
 
 		notify();
 	}
 
 	synchronized public void Iasa() {
-		while (!disponibil || locauriOcupate == 0) {
+		while (!disponibil || locuriOcupate == 0) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -38,10 +34,8 @@ public class Parcare {
 		}
 
 		disponibil = false;
-
-		locauriOcupate--;
-		System.out.println("- A iesit o masina. In parcare sunt " + locauriOcupate + " masini.");
-
+		locuriOcupate--;
+		System.out.println("- A iesit o masina. In parcare sunt " + locuriOcupate + " masini.");
 		disponibil = true;
 
 		notify();
