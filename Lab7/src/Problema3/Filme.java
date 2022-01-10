@@ -57,11 +57,11 @@ public class Filme extends JFrame {
 		contentPane.setLayout(null);
 
 		JLabel lblFilm = new JLabel("Film");
-		lblFilm.setBounds(115, 21, 23, 14);
+		lblFilm.setBounds(96, 24, 68, 14);
 		contentPane.add(lblFilm);
 
 		JLabel lblActor = new JLabel("Actor");
-		lblActor.setBounds(115, 46, 45, 14);
+		lblActor.setBounds(96, 49, 68, 14);
 		contentPane.add(lblActor);
 
 		txtFilm = new JTextField();
